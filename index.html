@@ -14,7 +14,9 @@
     <link rel="icon" href="images/logo/KingdomSite_logo.png" type="image/png">
 </head>
 <body>
-
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
     <header class="main-header">
         <div class="logo-container">
             <a href="#" class="site-logo home-link">
@@ -25,11 +27,11 @@
         <nav class="main-nav">
             <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-list">
-                <li><a href="#" class="home-link">Home</a></li>
-                <li><a href="#about" data-page="about-page">About</a></li>
-                <li><a href="#" data-page="events-page">Events</a></li>
-                <li><a href="#" data-page="sermons-page">Sermons</a></li>
-                <li><a href="#" data-page="donate-page">Give</a></li>
+                <li><a href="#" class="home-link" data-page-name="Home">Home</a></li>
+                <li><a href="#about" data-page-name="About">About</a></li>
+                <li><a href="#events" data-page-name="Events">Events</a></li>
+                <li><a href="#sermons" data-page-name="Sermons">Sermons</a></li>
+                <li><a href="#donate" data-page-name="Give">Give</a></li>
                 <li><a href="#newsletter">Updates</a></li>
             </ul>
         </nav>
@@ -37,7 +39,70 @@
 
     <main>
         <div id="main-content-wrapper">
+            <section id="hero" class="hero-section">
+                <div class="hero-content">
+                    <h1>Welcome Home</h1>
+                    <p>Experience faith, build community, and find your purpose with us.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn primary-btn" data-page="learn-more-page" data-aos="fade-up" data-aos-delay="200">Learn More</a>
+                        <a href="#" class="btn secondary-btn" data-page="sermons-full-page"data-aos="fade-up" data-aos-delay="200">Watch Sermons</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="about-section" data-aos="fade-up">
+                <h2>Our Vision & Story</h2>
+                <div class="about-content">
+                    <div class="text-block" data-aos="fade-right">
+                        <h3>Who We Are</h3>
+                        <p>KingdomSites is more than just a website; it's a digital home for believers to connect, grow, and serve. We believe in fostering a vibrant community rooted in faith and dedicated to making a positive impact.</p>
+                    </div>
+                    <div class="image-block" data-aos="fade-left">
+                        <img src="images/about_us (1).jpg" alt="About Us">
+                    </div>
+                </div>
+            </section>
+
+            <section id="events" class="events-section">
+                <h2>Upcoming Events</h2>
+                <div class="events-grid">
+                    <div class="event-card" data-aos="zoom-in" data-aos-delay="100">
+                        <h3>Community Outreach Day</h3>
+                        <p class="event-date">Saturday, July 27th, 2025</p>
+                        <p class="event-location">City Park, Main Street</p>
+                        <p>Join us as we share love and resources with our local community.</p>
+                    </div>
+                    <div class="event-card" data-aos="zoom-in" data-aos-delay="200">
+                        <h3>Mid-Week Bible Study</h3>
+                        <p class="event-date">Every Wednesday, 7:00 PM</p>
+                        <p class="event-location">Church Auditorium / Online</p>
+                        <p>Dive deeper into the scriptures with our engaging weekly study.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sermons" class="sermon-section">
+            <h2>Recent Sermons</h2>
+            <div class="sermon-videos-grid">
+                <div class="video-wrapper" data-aos="fade-up" data-aos-delay="100">
+                    <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+                    <h3>The Power of Faith</h3>
+                </div>
+                <div class="video-wrapper" data-aos="fade-up" data-aos-delay="200">
+                    <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+                    <h3>Building Community</h3>
+                </div>
             </div>
+            <a href="#" class="btn primary-btn" data-page="sermons-full-page" data-aos="fade-up">See All Sermons</a>
+        </section>
+
+            <section id="donate" class="donate-section">
+                <h2>Support Our Ministry</h2>
+                <p>Your generous contributions enable us to continue our mission and impact lives.</p>
+                <a href="#" class="btn primary-btn" data-page="give-full-page" data-aos="zoom-in">Give Online Securely</a>
+                <p class="donation-note" data-aos="fade-up">Your support helps with building projects, community outreach, and missions.</p>
+            </section>
+        </div>
 
         <section id="newsletter" class="newsletter-section">
             <h2>Get Updates From Our Ministry</h2>
@@ -69,10 +134,10 @@
             <div class="footer-col quick-links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#" class="home-link">Home</a></li>
-                    <li><a href="#" data-page="sermons-page">Sermons</a></li>
-                    <li><a href="#" data-page="events-page">Events</a></li>
-                    <li><a href="#" data-page="donate-page">Give</a></li>
+                    <li><a href="#" class="home-link" data-page-name="Home">Home</a></li>
+                    <li><a href="#" data-page="sermons-full-page" data-page-name="Sermons">Sermons</a></li>
+                    <li><a href="#events" data-page-name="Events">Events</a></li>
+                    <li><a href="#" data-page="give-full-page" data-page-name="Give">Give</a></li>
                     <li><a href="#newsletter">Contact</a></li>
                 </ul>
             </div>
