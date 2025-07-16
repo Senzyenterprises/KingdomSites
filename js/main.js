@@ -1,85 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navList = document.querySelector('.nav-list');
+    const preloader = document.getElementById('preloader');
     const mainContentWrapper = document.getElementById('main-content-wrapper');
-    const newsletterStatus = document.getElementById('newsletter-status');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navList = document.querySelector('.main-nav .nav-list');
 
-    // --- Mobile Navigation Toggle ---
+    // Store the initial home page content
+    const initialHomePageContent = mainContentWrapper.innerHTML;
+    let currentPage = 'home'; // Track the current page for animation direction
+
+    // Preloader fade out
+    window.addEventListener('load', () => {
+        if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            // Also ensure body is marked loaded
+            document.body.classList.add('loaded');
+            // Initialize AOS after preloader is hidden
+            AOS.init({
+                duration: 1000, // animation duration
+                once: true // animations only happen once on scroll down
+            });
+        }
+    });
+
+    // Mobile Navigation Toggle
     if (navToggle && navList) {
         navToggle.addEventListener('click', () => {
             navList.classList.toggle('active');
         });
+
+        // Close nav when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navList.contains(e.target)) {
+                if (navList.classList.contains('active')) {
+                    navList.classList.remove('active');
+                }
+            }
+        });
     }
 
-    // --- Page Content Templates ---
-    // Store your original home page content as a template literal
-    const homePageContent = `
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <h1>Welcome Home</h1>
-                <p>Experience faith, build community, and find your purpose with us.</p>
-                <div class="cta-buttons">
-                    <a href="#" class="btn primary-btn" data-page="learn-more-page" data-aos="fade-up" data-aos-delay="200">Learn More</a>
-                    <a href="#" class="btn secondary-btn" data-page="sermons-full-page" data-aos="fade-up" data-aos-delay="400">Watch Sermons</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about-section" data-aos="fade-up">
-            <h2>Our Vision & Story</h2>
-            <div class="about-content">
-                <div class="text-block" data-aos="fade-right">
-                    <h3>Who We Are</h3>
-                    <p>KingdomSites is more than just a website; it's a digital home for believers to connect, grow, and serve. We believe in fostering a vibrant community rooted in faith and dedicated to making a positive impact.</p>
-                </div>
-                <div class="image-block" data-aos="fade-left">
-                    <img src="images/about_us (1).jpg" alt="About Us">
-                </div>
-            </div>
-        </section>
-
-        <section id="events" class="events-section">
-            <h2>Upcoming Events</h2>
-            <div class="events-grid">
-                <div class="event-card" data-aos="zoom-in" data-aos-delay="100">
-                    <h3>Community Outreach Day</h3>
-                    <p class="event-date">Saturday, July 27th, 2025</p>
-                    <p class="event-location">City Park, Main Street</p>
-                    <p>Join us as we share love and resources with our local community.</p>
-                </div>
-                <div class="event-card" data-aos="zoom-in" data-aos-delay="200">
-                    <h3>Mid-Week Bible Study</h3>
-                    <p class="event-date">Every Wednesday, 7:00 PM</p>
-                    <p class="event-location">Church Auditorium / Online</p>
-                    <p>Dive deeper into the scriptures with our engaging weekly study.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="sermons" class="sermon-section">
-            <h2>Recent Sermons</h2>
-            <div class="sermon-videos-grid">
-                <div class="video-wrapper" data-aos="fade-up" data-aos-delay="100">
-                    <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
-                    <h3>The Power of Faith</h3>
-                </div>
-                <div class="video-wrapper" data-aos="fade-up" data-aos-delay="200">
-                    <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
-                    <h3>Building Community</h3>
-                </div>
-            </div>
-            <a href="#" class="btn primary-btn" data-page="sermons-full-page" data-aos="fade-up">See All Sermons</a>
-        </section>
-
-        <section id="donate" class="donate-section">
-            <h2>Support Our Ministry</h2>
-            <p>Your generous contributions enable us to continue our mission and impact lives.</p>
-            <a href="#" class="btn primary-btn" data-page="give-full-page" data-aos="zoom-in">Give Online Securely</a>
-            <p class="donation-note" data-aos="fade-up">Your support helps with building projects, community outreach, and missions.</p>
-        </section>
-    `; // End of homePageContent
-
-    const sermonsFullPageContent = `
+    // --- Dynamic Page Contents ---
+   const sermonsFullPageContent = `
         <section id="full-sermons" class="dynamic-page-section">
             <h2>All Sermons</h2>
             <p>Dive deeper into the Word with our complete sermon library.</p>
@@ -136,8 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </ul>
         </section>
     `; // End of sermonsFullPageContent
-
-    const learnMorePageContent = `
+   const learnMorePageContent = `
         <section id="full-about" class="dynamic-page-section">
             <h2>Our Vision, Mission & Beliefs</h2>
             <div class="learn-more-content" data-aos="fade-up">
@@ -165,87 +125,85 @@ document.addEventListener('DOMContentLoaded', () => {
     `; // End of learnMorePageContent
 
     const giveFullPageContent = `
-        <section id="full-give" class="dynamic-page-section">
-            <h2>Give to KingdomSites</h2>
-            <p>Your faithful giving empowers our ministry to continue spreading hope and serving our community.</p>
-
-            <div class="give-content" data-aos="fade-up">
-                <h3>Why Your Giving Matters</h3>
-                <p>Your contributions directly support our outreach programs, maintain our facilities, fund discipleship initiatives, and enable us to minister to those in need. Every gift, no matter the size, makes a significant difference in advancing God's Kingdom.</p>
-
-                <h3>Ways to Give</h3>
+        <section id="give-full-dynamic" class="dynamic-page-section">
+            <div class="container give-content">
+                <h2>Support KingdomSites Ministry</h2>
+                <p>Your generous giving plays a vital role in enabling us to continue our mission to spread God's love, serve our community, and impact lives. Every contribution, no matter the size, makes a difference.</p>
+                
                 <div class="give-options">
-                    <div class="give-option-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="give-option-card" data-aos="fade-up" data-aos-delay="100">
                         <h3>Online Giving</h3>
-                        <p>Give securely and conveniently through our online platform using your debit/credit card or bank transfer.</p>
-                        <a href="YOUR_PAYSTACK_FLUTTERWAVE_LINK_1" target="_blank" class="btn primary-btn">Give Via Paystack</a>
-                        <a href="YOUR_PAYSTACK_FLUTTERWAVE_LINK_2" target="_blank" class="btn secondary-btn" style="margin-left: 10px;">Give Via Flutterwave</a>
+                        <p>Give securely and conveniently online through our trusted payment portal. You can set up one-time gifts or recurring donations.</p>
+                        <a href="#" class="btn secondary-btn" target="_blank" rel="noopener noreferrer">Give Online Now</a>
                     </div>
-
-                    <div class="give-option-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="give-option-card" data-aos="fade-up" data-aos-delay="200">
                         <h3>Bank Transfer</h3>
-                        <p>You can also give directly via bank transfer. Here are our details:</p>
-                        <p><strong>Bank Name:</strong> [Your Bank Name]</p>
+                        <p>You can also give directly via bank transfer. Please use the details below:</p>
+                        <p><strong>Bank Name:</strong> KingdomSites Bank</p>
                         <p><strong>Account Name:</strong> KingdomSites Ministry</p>
-                        <p><strong>Account Number:</strong> [Your Account Number]</p>
+                        <p><strong>Account Number:</strong> 1234567890</p>
+                        <p><strong>Sort Code/Routing:</strong> 00-00-00</p>
                     </div>
-
-                    <div class="give-option-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="give-option-card" data-aos="fade-up" data-aos-delay="300">
                         <h3>In-Person Giving</h3>
-                        <p>You can give cash or cheque during any of our service times. Offering envelopes are available at the welcome desk.</p>
-                        <p><strong>Location:</strong> Your Church Address, City, Country</p>
+                        <p>You are welcome to give in person during our regular service times. Look for the offering plates or designated donation points.</p>
                     </div>
                 </div>
-                <p class="donation-note" style="margin-top: 3rem;" data-aos="fade-up">"God loves a cheerful giver." - 2 Corinthians 9:7</p>
-                <a href="#" class="btn primary-btn home-link" style="margin-top: 1.5rem;" data-aos="fade-up">Back to Home</a>
+                <p style="margin-top: 2rem;">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." - 2 Corinthians 9:7</p>
+                <button class="btn primary-btn back-button" data-page-name="Home">Back to Home</button>
             </div>
         </section>
-    `; // End of giveFullPageContent
+    `;
 
-    // --- Function to Load Page Content with Animation ---
-    const loadPage = (pageContent, pageName) => {
-        // First, apply "out" animation
-        mainContentWrapper.classList.add('content-out-left');
-        
-        // Disable pointer events on the wrapper during transition
-        mainContentWrapper.style.pointerEvents = 'none';
+    // --- Page Loading Function ---
+    const loadPage = (content, page) => {
+        // Determine animation direction based on page navigation
+        let animationOutClass = '';
+        let animationInClass = '';
 
-        // Listen for the end of the "out" animation
-        mainContentWrapper.addEventListener('transitionend', function handler() {
-            // Remove the event listener to prevent multiple triggers
-            mainContentWrapper.removeEventListener('transitionend', handler);
+        if (page === 'Home') {
+            // If going back to home, slide out to right, slide in from left (reverse)
+            animationOutClass = 'content-out-right';
+            animationInClass = 'content-in-left';
+        } else {
+            // For other pages, slide out to left, slide in from right (normal flow)
+            animationOutClass = 'content-out-left';
+            animationInClass = 'content-in-right';
+        }
 
-            // Immediately set new content and remove "out" class
-            mainContentWrapper.innerHTML = pageContent;
-            mainContentWrapper.classList.remove('content-out-left');
+        // Apply slide-out animation
+        mainContentWrapper.classList.add(animationOutClass);
 
-            // Apply "in" animation
-            mainContentWrapper.classList.add('content-in-right');
+        // After the slide-out animation finishes, change content and slide in
+        setTimeout(() => {
+            mainContentWrapper.innerHTML = content;
+            mainContentWrapper.classList.remove(animationOutClass); // Remove out class
+            mainContentWrapper.classList.add(animationInClass); // Add in class
 
-            // Scroll to just below the header
-            const headerOffset = document.querySelector('.main-header').offsetHeight;
-            window.scrollTo({
-                top: headerOffset + 20, // Add a little extra space
-                behavior: 'smooth'
-            });
-
-            // Listen for the end of the "in" animation
-            mainContentWrapper.addEventListener('animationend', function animHandler() {
-                mainContentWrapper.removeEventListener('animationend', animHandler);
-                mainContentWrapper.classList.remove('content-in-right');
-                // Re-enable pointer events after transition
-                mainContentWrapper.style.pointerEvents = 'auto';
-
-                // Re-initialize AOS for the new content
-                // This is crucial for new AOS elements to animate
+            // After new content is added and animated in, remove the animation class
+            // This ensures it's ready for the next animation
+            mainContentWrapper.addEventListener('animationend', () => {
+                mainContentWrapper.classList.remove(animationInClass);
+                // Refresh AOS to apply animations to newly loaded content
                 AOS.refreshHard();
-            });
+            }, { once: true }); // Use {once: true} to ensure it runs only once
 
-            // If the nav list is active (mobile menu open), close it
+            // Scroll to top of the new page content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update current page tracker
+            currentPage = page;
+
+            // Optional: Update URL for better browser history and direct linking
+            // You might want to map page names to actual paths (e.g., /sermons, /about)
+            let path = page === 'Home' ? '/' : `/${page.toLowerCase()}`;
+            history.pushState({ page: page }, page, path);
+
+            // Close mobile nav if open
             if (navList && navList.classList.contains('active')) {
                 navList.classList.remove('active');
             }
-        });
+        }, 600); // Match this with your CSS transition duration
     };
 
     // --- Event Listeners for Buttons and Navigation ---
@@ -253,9 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = e.target;
 
         // Handle navigation links in header and footer
-        if (target.matches('.main-nav a') || target.matches('.footer-col.quick-links a')) {
+        if (target.matches('.main-nav a') || target.matches('.footer-col.quick-links a') || target.matches('.home-link') || target.matches('.back-button') || target.matches('.btn[data-page]')) {
             e.preventDefault(); // Prevent default link behavior
+
             const pageId = target.dataset.page;
+            const pageName = target.dataset.pageName || 'Home'; // Get page name for animation direction
             const href = target.getAttribute('href');
 
             if (pageId) {
@@ -263,15 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (pageId === 'sermons-full-page') {
                     loadPage(sermonsFullPageContent, 'Sermons');
                 } else if (pageId === 'learn-more-page') {
-                    loadPage(learnMorePageContent, 'About Us');
+                    loadPage(learnMorePageContent, 'About'); // Use 'About' as page name for consistency
                 } else if (pageId === 'give-full-page') {
                     loadPage(giveFullPageContent, 'Give');
                 }
-                // For other nav items, if you want them to scroll to sections within homePageContent
-                // you'd add logic here, or remove their data-page attributes and revert to smooth scrolling.
-            } else if (target.matches('.home-link')) {
-                loadPage(homePageContent, 'Home');
-            } else if (href && href.startsWith('#')) { // For newsletter scroll
+            } else if (target.matches('.home-link') || target.matches('.back-button')) { // Simplified back to home
+                loadPage(initialHomePageContent, 'Home'); // Load the original home content
+            } else if (href && href.startsWith('#')) { // For newsletter scroll or other internal anchors
                 const targetSection = document.querySelector(href);
                 const headerOffset = document.querySelector('.main-header').offsetHeight;
                 if (targetSection) {
@@ -279,71 +237,42 @@ document.addEventListener('DOMContentLoaded', () => {
                         top: targetSection.offsetTop - headerOffset,
                         behavior: 'smooth'
                     });
-                     if (navList && navList.classList.contains('active')) {
+                    if (navList && navList.classList.contains('active')) {
                         navList.classList.remove('active');
                     }
                 }
             }
         }
+    });
 
-        // Handle CTA buttons in Hero, Sermons, and Donate sections
-        if (target.matches('.hero-section .cta-buttons .btn') ||
-            target.matches('#sermons .btn.primary-btn') ||
-            target.matches('#donate .btn.primary-btn')) {
-            
-            e.preventDefault(); // Prevent default link behavior
-
-            const pageId = target.dataset.page;
-            if (pageId === 'learn-more-page') {
-                loadPage(learnMorePageContent, 'About Us');
-            } else if (pageId === 'sermons-full-page') {
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.page) {
+            if (e.state.page === 'Home') {
+                loadPage(initialHomePageContent, 'Home');
+            } else if (e.state.page === 'Sermons') {
                 loadPage(sermonsFullPageContent, 'Sermons');
-            } else if (pageId === 'give-full-page') {
+            } else if (e.state.page === 'About') {
+                loadPage(learnMorePageContent, 'About');
+            } else if (e.state.page === 'Give') {
                 loadPage(giveFullPageContent, 'Give');
             }
+        } else {
+            // If popstate doesn't have a state (e.g., initial load or direct navigation to #anchor)
+            // You might want to default to home or handle specific anchors.
+            loadPage(initialHomePageContent, 'Home');
         }
     });
 
-    // --- Newsletter Form Submission (Firebase Integration Placeholder) ---
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm && newsletterStatus) {
-        newsletterForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const emailInput = newsletterForm.querySelector('input[type="email"]');
-            const email = emailInput.value;
-
-            if (email) {
-                newsletterStatus.textContent = 'Subscribing...';
-                newsletterStatus.style.color = 'orange';
-
-                setTimeout(() => {
-                    newsletterStatus.textContent = 'Subscribed successfully! (Simulated)';
-                    newsletterStatus.style.color = 'green';
-                    emailInput.value = '';
-                }, 1500);
-            } else {
-                newsletterStatus.textContent = 'Please enter a valid email address.';
-                newsletterStatus.style.color = 'red';
-            }
-        });
+    // Initial load check for deep links (e.g., if someone navigates directly to /sermons)
+    const initialPath = window.location.pathname.replace(/^\/|\/$/g, ''); // Remove leading/trailing slashes
+    if (initialPath === 'sermons') {
+        loadPage(sermonsFullPageContent, 'Sermons');
+    } else if (initialPath === 'about') {
+        loadPage(learnMorePageContent, 'About');
+    } else if (initialPath === 'give') {
+        loadPage(giveFullPageContent, 'Give');
+    } else if (initialPath === '' || initialPath === 'index.html') {
+        // Do nothing, initial content is already there
     }
-
-    // --- Initial Page Load ---
-    // Load the home page content when the DOM is ready
-    loadPage(homePageContent, 'Home');
 });
-
-// A small debounce function for resize, not strictly needed for this, but good practice
-function debounce(func, delay) {
-    let timeout;
-    return function(...args) {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), delay);
-    };
-}
-
-// Adjust hero section height on resize if needed (though CSS handles most now)
-window.addEventListener('resize', debounce(() => {
-    AOS.refreshHard(); // Ensure AOS positions correctly after resize
-}, 250));
