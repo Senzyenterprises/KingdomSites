@@ -174,7 +174,7 @@ a:hover {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero\ section\ \(1\).jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Creates a subtle parallax effect for depth */
+    background-attachment: scroll; /* Creates a subtle parallax effect for depth */
     padding: 100px 5% 50px; /* Top padding for fixed header, responsive side padding */
     position: relative;
     overflow: hidden; /* For any subtle background animations if added later */
