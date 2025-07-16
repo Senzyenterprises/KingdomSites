@@ -44,6 +44,44 @@ a:hover {
     color: var(--navy-blue);
 }
 
+/* --- Preloader Styles --- */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-dark); /* Using a variable now for consistency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Smooth fade out */
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3); /* Lighter border for contrast */
+    border-top: 4px solid var(--royal-purple); /* Use your brand color */
+    border-radius: 50%;
+    width: 50px; /* Slightly larger */
+    height: 50px; /* Slightly larger */
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hide preloader when page is loaded */
+body.loaded #preloader {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Make it unclickable */
+}
+
 /* --- Utility Classes --- */
 .container {
     max-width: 1200px;
@@ -171,7 +209,7 @@ a:hover {
     align-items: center;
     text-align: center;
     color: var(--white); /* White text for contrast */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero\ section\ \(1\).jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero section (1).jpg');
     background-size: cover;
     background-position: center;
     background-attachment: scroll; /* Creates a subtle parallax effect for depth */
@@ -313,7 +351,7 @@ section h2::after {
     margin-bottom: 0.5rem;
 }
 
-/* --- Sermon Videos Section --- */
+/* --- Sermon Videos Section (Home Page) --- */
 .sermon-videos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -505,33 +543,17 @@ section h2::after {
     color: rgba(255,255,255,0.7);
 }
 
-/* Add this at the END of your style.css file */
-
 /* --- Page Transition Animations --- */
-/* Base state for the content wrapper */
+/* Base styles for the main content wrapper */
 #main-content-wrapper {
-    position: relative; /* Needed for positioning child elements during animation */
-    overflow: hidden; /* Hide overflowing content during transitions */
-    min-height: 50vh; /* Ensure there's always some height even if content is small */
-    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out; /* For fade/slide effects */
+    position: relative; /* Needed for positioning elements during animation */
+    overflow: hidden; /* Hide content outside the wrapper during animation */
+    min-height: 500px; /* Adjust as needed, or let content define height */
+    /* Removed individual transition properties here as animations will control transform/opacity */
 }
 
-/* Animation for content sliding out to the left */
-.content-out-left {
-    transform: translateX(-100%);
-    opacity: 0;
-    pointer-events: none; /* Disable interaction during transition */
-}
-
-/* Animation for content sliding in from the right */
-.content-in-right {
-    transform: translateX(0); /* Final position */
-    opacity: 1;
-    animation: slideInRight 0.6s ease-out forwards; /* Apply animation */
-}
-
-/* Keyframe for sliding in from the right */
-@keyframes slideInRight {
+/* Animations for sliding content in */
+@keyframes slideInFromRight {
     from {
         transform: translateX(100%);
         opacity: 0;
@@ -542,26 +564,48 @@ section h2::after {
     }
 }
 
-/* Keyframe for sliding out to the left */
-@keyframes slideOutLeft {
+@keyframes slideInFromLeft {
     from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
         transform: translateX(-100%);
         opacity: 0;
     }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-/* New CSS for dynamic page content specifically */
+/* Classes for content sliding out (using transitions for simplicity) */
+#main-content-wrapper.content-out-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+#main-content-wrapper.content-out-right {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+/* Classes for content sliding in (using animations) */
+#main-content-wrapper.content-in-right {
+    animation: slideInFromRight 0.6s ease-out forwards;
+}
+
+#main-content-wrapper.content-in-left {
+    animation: slideInFromLeft 0.6s ease-out forwards;
+}
+
+/* Ensure dynamic sections fill the width */
 .dynamic-page-section {
+    width: 100%;
     padding: 5rem 5%; /* Consistent section padding */
     text-align: center;
     position: relative;
     overflow: hidden;
     min-height: calc(100vh - 150px); /* Adjust based on header/footer height */
-    display: flex;
+    display: flex; /* Use flex for vertical centering if needed */
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -695,37 +739,6 @@ section h2::after {
     margin-bottom: 1.5rem;
 }
 
-/* Mobile adjustments for hero section height */
-@media (max-width: 768px) {
-    .hero-section {
-        min-height: 75vh; /* Adjusted for smaller screens */
-        padding-top: 100px; /* Ensure content is below fixed header */
-    }
-}
-@media (max-width: 480px) {
-    .hero-section {
-        min-height: 70vh; /* Slightly smaller for very small screens */
-    }
-}
-
-/* Ensure AOS animations reset correctly for dynamic content */
-[data-aos].aos-animate {
-    opacity: 1 !important;
-    transform: translate(0) scale(1) !important;
-}
-
-/* Override default AOS behavior for the main content wrapper during transitions */
-#main-content-wrapper.content-out-left [data-aos],
-#main-content-wrapper.content-in-right [data-aos] {
-    opacity: 0; /* Hide AOS elements initially for a clean fade/slide */
-    transform: none; /* Reset transform for main container animation */
-}
-
-/* Re-apply AOS only AFTER the content has fully swapped and settled */
-#main-content-wrapper:not(.content-out-left):not(.content-in-right) [data-aos] {
-    opacity: 0; /* Reset for next scroll animation */
-    transition: opacity 0s, transform 0s; /* No transition for this reset */
-}
 
 /* --- Mobile Responsiveness (Media Queries) --- */
 @media (max-width: 992px) {
@@ -801,7 +814,8 @@ section h2::after {
     }
 
     .hero-section {
-        padding-top: 80px; /* Adjust for potentially taller mobile header */
+        min-height: 75vh; /* Adjusted for smaller screens */
+        padding-top: 100px; /* Ensure content is below fixed header */
     }
 
     .newsletter-form {
