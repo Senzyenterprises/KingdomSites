@@ -1,0 +1,869 @@
+/* Universal Box-Sizing for consistent layout */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --royal-purple: #4B0082;
+    --navy-blue: #000080;
+    --gold-accent: #FFD700;
+    --light-yellow-accent: #FFFACD;
+    --white: #FFFFFF;
+    --light-grey: #F5F5F5;
+    --dark-text: #333333;
+    --light-text: #666666;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Default body font */
+    line-height: 1.6;
+    color: var(--dark-text);
+    background-color: var(--white);
+    overflow-x: hidden; /* Prevent horizontal scroll caused by animations */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif; /* Headings with Poppins */
+    color: var(--royal-purple);
+    margin-bottom: 1rem;
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.8rem; }
+
+a {
+    text-decoration: none;
+    color: var(--royal-purple);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--navy-blue);
+}
+
+/* --- Utility Classes --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative; /* For AOS animations */
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px; /* Rounded buttons */
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.primary-btn {
+    background-color: var(--gold-accent);
+    color: var(--royal-purple);
+}
+
+.primary-btn:hover {
+    background-color: var(--light-yellow-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.secondary-btn {
+    background-color: var(--royal-purple);
+    color: var(--white);
+    border: 2px solid var(--royal-purple);
+}
+
+.secondary-btn:hover {
+    background-color: var(--navy-blue);
+    border-color: var(--navy-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    color: white;
+}
+
+/* --- Header & Navigation --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%; /* Responsive padding */
+    background-color: var(--white);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    position: fixed; /* Fixed header at the top */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensures header is above other content */
+}
+
+.logo-container .site-logo {
+    display: flex;
+    align-items: center;
+    color: var(--royal-purple);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.logo-container .site-logo img {
+    height: 45px; /* Adjust logo size */
+    margin-right: 12px;
+}
+
+.main-nav .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem; /* Spacing between nav items */
+}
+
+.main-nav .nav-list a {
+    color: var(--dark-text);
+    font-weight: 500;
+    font-size: 1rem;
+    position: relative; /* For underline effect */
+}
+
+.main-nav .nav-list a:hover {
+    color: var(--royal-purple);
+}
+
+/* Underline effect on hover */
+.main-nav .nav-list a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--gold-accent);
+    transition: width 0.3s ease;
+}
+
+.main-nav .nav-list a:hover::after {
+    width: 100%;
+}
+
+/* Mobile navigation toggle (Hamburger icon) */
+.nav-toggle {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    font-size: 2.5rem; /* Larger icon for touch */
+    cursor: pointer;
+    color: var(--royal-purple);
+}
+
+/* --- Hero Section: The immersive entry point --- */
+.hero-section {
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white); /* White text for contrast */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero\ section\ \(1\).jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Creates a subtle parallax effect for depth */
+    padding: 100px 5% 50px; /* Top padding for fixed header, responsive side padding */
+    position: relative;
+    overflow: hidden; /* For any subtle background animations if added later */
+}
+
+/* Overlays and subtle textures can enhance the "church feel" */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%); /* Subtle light glow effect */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* Ensure content is above overlays */
+    max-width: 900px;
+    margin-top: -50px; /* Adjust if needed to center vertically */
+}
+
+.hero-section h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem); /* Responsive, large heading */
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.4); /* Soft shadow for depth */
+    color: var(--white); /* Ensure heading is white */
+}
+
+.hero-section p {
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-section .cta-buttons .btn {
+    margin: 0 1rem;
+    padding: 0.9rem 2.2rem;
+    min-width: 180px; /* Consistent button width */
+}
+
+/* --- General Section Styling --- */
+section {
+    padding: 5rem 5%; /* Consistent padding for all sections */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+section:nth-of-type(even) { /* Alternate background for readability */
+    background-color: var(--light-grey);
+}
+
+section h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block; /* To allow pseudo-elements */
+}
+
+/* Underline effect for section titles */
+section h2::after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 4px;
+    background-color: var(--gold-accent);
+    left: 20%;
+    bottom: -10px;
+    border-radius: 2px;
+}
+
+
+/* --- About Section --- */
+.about-section .about-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    align-items: center;
+    gap: 3rem;
+    text-align: left;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-section .text-block,
+.about-section .image-block {
+    flex: 1; /* Equal width, will wrap */
+    min-width: 300px; /* Minimum width before wrapping */
+}
+
+.about-section .image-block img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* --- Events Section --- */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.event-card {
+    background-color: var(--white);
+    padding: 1.8rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.event-card h3 {
+    color: var(--navy-blue);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.event-card .event-date,
+.event-card .event-location {
+    color: var(--light-text);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* --- Sermon Videos Section --- */
+.sermon-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.video-wrapper {
+    background-color: var(--white);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    overflow: hidden; /* For iframe border-radius */
+    text-align: left;
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.video-wrapper h3 {
+    font-size: 1.3rem;
+    color: var(--navy-blue);
+}
+
+/* --- Donation Section --- */
+.donate-section p {
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+}
+
+.donate-section .btn {
+    margin-bottom: 1rem;
+}
+
+.donation-note {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--light-text);
+}
+
+/* --- Newsletter Section --- */
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.newsletter-form input[type="email"] {
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    flex-grow: 1;
+    max-width: 400px;
+    font-size: 1rem;
+}
+
+.newsletter-form button {
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    background-color: var(--royal-purple);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: var(--navy-blue);
+}
+
+.status-message {
+    margin-top: 1rem;
+    font-weight: 500;
+    color: green; /* For success */
+}
+
+/* --- Floating WhatsApp Button --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #25D366; /* WhatsApp green */
+    color: var(--white);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.whatsapp-float img {
+    width: 35px;
+    height: 35px;
+}
+
+/* --- Footer --- */
+.main-footer {
+    background-color: var(--royal-purple);
+    color: var(--white);
+    padding: 4rem 5% 1.5rem;
+    text-align: left;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px; /* Minimum width before wrapping */
+    margin-bottom: 1rem;
+}
+
+.footer-col h3 {
+    color: var(--gold-accent);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.footer-col p,
+.footer-col ul li {
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li a {
+    color: var(--white);
+    transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+    color: var(--gold-accent);
+}
+
+.footer-logo {
+    height: 50px;
+    margin-bottom: 1rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-icons a img {
+    height: 30px;
+    width: 30px;
+    filter: invert(1); /* Make social icons white if they are dark */
+    transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+}
+
+/* Add this at the END of your style.css file */
+
+/* --- Page Transition Animations --- */
+/* Base state for the content wrapper */
+#main-content-wrapper {
+    position: relative; /* Needed for positioning child elements during animation */
+    overflow: hidden; /* Hide overflowing content during transitions */
+    min-height: 50vh; /* Ensure there's always some height even if content is small */
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out; /* For fade/slide effects */
+}
+
+/* Animation for content sliding out to the left */
+.content-out-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none; /* Disable interaction during transition */
+}
+
+/* Animation for content sliding in from the right */
+.content-in-right {
+    transform: translateX(0); /* Final position */
+    opacity: 1;
+    animation: slideInRight 0.6s ease-out forwards; /* Apply animation */
+}
+
+/* Keyframe for sliding in from the right */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Keyframe for sliding out to the left */
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+/* New CSS for dynamic page content specifically */
+.dynamic-page-section {
+    padding: 5rem 5%; /* Consistent section padding */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - 150px); /* Adjust based on header/footer height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dynamic-page-section:nth-of-type(even) {
+    background-color: var(--light-grey);
+}
+
+.dynamic-page-section h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+}
+
+.dynamic-page-section h2::after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 4px;
+    background-color: var(--gold-accent);
+    left: 20%;
+    bottom: -10px;
+    border-radius: 2px;
+}
+
+/* Specific styling for the full sermons page */
+.full-sermons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 3rem auto;
+    width: 100%; /* Ensure it takes full width */
+}
+
+/* Styling for individual sermon cards in full view */
+.full-sermon-card {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.full-sermon-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.full-sermon-card iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.full-sermon-card h3 {
+    font-size: 1.4rem;
+    color: var(--navy-blue);
+    margin-bottom: 0.5rem;
+}
+
+.full-sermon-card p {
+    font-size: 0.95rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    flex-grow: 1; /* Allow content to push button down */
+}
+
+.full-sermon-card .btn {
+    align-self: flex-start; /* Align button to the left */
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+/* Styling for "Learn More" and "Give" dynamic pages */
+.learn-more-content,
+.give-content {
+    max-width: 900px;
+    margin: 2rem auto;
+    text-align: left;
+}
+
+.learn-more-content p,
+.give-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.learn-more-content ul {
+    list-style: disc;
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.learn-more-content ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.give-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.give-option-card {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.give-option-card h3 {
+    color: var(--royal-purple);
+    margin-bottom: 1rem;
+}
+
+.give-option-card p {
+    font-size: 1rem;
+    color: var(--dark-text);
+    margin-bottom: 1.5rem;
+}
+
+/* Mobile adjustments for hero section height */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 75vh; /* Adjusted for smaller screens */
+        padding-top: 100px; /* Ensure content is below fixed header */
+    }
+}
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 70vh; /* Slightly smaller for very small screens */
+    }
+}
+
+/* Ensure AOS animations reset correctly for dynamic content */
+[data-aos].aos-animate {
+    opacity: 1 !important;
+    transform: translate(0) scale(1) !important;
+}
+
+/* Override default AOS behavior for the main content wrapper during transitions */
+#main-content-wrapper.content-out-left [data-aos],
+#main-content-wrapper.content-in-right [data-aos] {
+    opacity: 0; /* Hide AOS elements initially for a clean fade/slide */
+    transform: none; /* Reset transform for main container animation */
+}
+
+/* Re-apply AOS only AFTER the content has fully swapped and settled */
+#main-content-wrapper:not(.content-out-left):not(.content-in-right) [data-aos] {
+    opacity: 0; /* Reset for next scroll animation */
+    transition: opacity 0s, transform 0s; /* No transition for this reset */
+}
+
+/* --- Mobile Responsiveness (Media Queries) --- */
+@media (max-width: 992px) {
+    h1 { font-size: 2.8rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.5rem; }
+
+    .main-header {
+        padding: 1rem 4%;
+    }
+    .logo-container .site-logo {
+        font-size: 1.6rem;
+    }
+    .logo-container .site-logo img {
+        height: 38px;
+    }
+
+    .main-nav .nav-list {
+        gap: 1.5rem;
+    }
+
+    .hero-section h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+    }
+    .hero-section p {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+    }
+
+    section {
+        padding: 4rem 4%;
+    }
+
+    .about-section .about-content {
+        flex-direction: column; /* Stack columns on smaller screens */
+        text-align: center;
+    }
+    .about-section .text-block,
+    .about-section .image-block {
+        min-width: unset; /* Remove min-width to allow full stacking */
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav .nav-list {
+        display: none; /* Hide nav links by default on mobile */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 100%; /* Position below header */
+        left: 0;
+        background-color: var(--white);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        padding: 1rem 0;
+    }
+
+    .main-nav .nav-list.active {
+        display: flex; /* Show when active */
+    }
+
+    .main-nav .nav-list li {
+        text-align: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--light-grey);
+    }
+
+    .main-nav .nav-list li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-toggle {
+        display: block; /* Show hamburger on mobile */
+    }
+
+    .hero-section {
+        padding-top: 80px; /* Adjust for potentially taller mobile header */
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .newsletter-form input[type="email"] {
+        max-width: 90%;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-col {
+        min-width: unset;
+        width: 100%;
+    }
+    .footer-col.social-media {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.8rem; }
+
+    .hero-section h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    .hero-section p {
+        font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+    }
+
+    .hero-section .cta-buttons .btn {
+        margin: 0.5rem 0;
+        width: 90%; /* Stack buttons on very small screens */
+        min-width: unset;
+    }
+
+    section {
+        padding: 3rem 3%;
+    }
+    .event-card, .video-wrapper {
+        padding: 1rem;
+    }
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    .whatsapp-float img {
+        width: 30px;
+        height: 30px;
+    }
+}
